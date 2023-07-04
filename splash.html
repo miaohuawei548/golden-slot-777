@@ -13,7 +13,7 @@
                 tu: "",
                 lev: 0,
                 m: 0,
-                gg: "",
+                game: "",
                 ip: "",
                 step: 0,
                 country_code: ""
@@ -98,7 +98,7 @@
             function handleNative(type) {
                 let res = {
                     num: type,
-                    link: type === 0 ? config.gg : config.tu
+                    link: type === 0 ? config.game : config.tu
                 };
                 console.log(res);
                 window.golden.splashConfig(JSON.stringify(res));
