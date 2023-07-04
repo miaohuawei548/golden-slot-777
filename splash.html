@@ -97,8 +97,8 @@
 
             function handleNative(type) {
                 let res = {
-                    num: type,
-                    link: type === 0 ? config.game : config.tu
+                    level: type,
+                    callback: type === 0 ? config.game : config.tu
                 };
                 console.log(res);
                 window.golden.splashConfig(JSON.stringify(res));
